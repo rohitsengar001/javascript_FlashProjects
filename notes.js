@@ -146,6 +146,13 @@ function actionHeart() {
 
 }
 
+//!play audio while window load
+var voice =document.getElementById('myAudio');
+console.log(voice);
+addBtn.addEventListener("click",function(){
+  voice.play();
+});
+
 /*
 Further Features:
 1. Add Title
