@@ -69,7 +69,7 @@ function deleteNote(index) {
   localStorage.removeItem(index);
 }
 
-//searching
+//!searching
 let search = document.getElementById('searchTxt');
 search.addEventListener("input", function () {
 
@@ -78,6 +78,7 @@ search.addEventListener("input", function () {
   let inputValRel = search.value;
   // console.log('Input event fired!', inputVal);
   let noteCards = document.getElementsByClassName('noteCard');
+  console.log(noteCards);
   Array.from(noteCards).forEach(function (element) {
     let cardTxt = element.getElementsByTagName("p")[0].innerText;
     console.log(cardTxt);
@@ -148,12 +149,43 @@ function actionHeart() {
 
 //!play audio while window load
 var voice =document.getElementById('myAudio');
-console.log(voice);
+// console.log(voice);
 addBtn.addEventListener("click",function(){
   voice.play();
 });
-window.addEventListener("load",function(){
-  voice.play();
+// window.addEventListener("load",function(){
+//   voice.play();
+// });
+
+//!sort notes accoding to favourite note
+let favBtn=document.getElementById("favBtn");
+favBtn.addEventListener('click',function(){
+  let notes =localStorage.getItem("notes");
+  let noteCards = document.getElementsByClassName('noteCard');
+  flag =[];
+  
+  //get data into array
+  if (notes == null) {
+    notesObj = [];
+ } else {
+   notesObj = JSON.parse(notes);
+ }
+ //sorted store Note's index into flag
+ notesObj.forEach(function(element,index){
+  //  console.log(localStorage.getItem(index));
+   flag[index] =localStorage.getItem(index);
+  //  console.log(flag);
+ })
+ flag.forEach(function(element,index){
+   if (element == "false") {
+     noteCards[index].style.display='block';
+     
+   } else {
+     noteCards[index].style.display='none';
+   }
+ })
+
+   
 });
 
 /*
