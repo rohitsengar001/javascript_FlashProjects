@@ -152,6 +152,9 @@ console.log(voice);
 addBtn.addEventListener("click",function(){
   voice.play();
 });
+window.addEventListener("load",function(){
+  voice.play();
+});
 
 /*
 Further Features:
