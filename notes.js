@@ -16,9 +16,9 @@ addBtn.addEventListener("click", function (e) {
     notesObj = JSON.parse(notes);//parse??
   }
   //use object literals
-  myObj={
-    text:addTxt.value,
-    title:addTitle.value
+  myObj = {
+    text: addTxt.value,
+    title: addTitle.value
   }
   notesObj.push(myObj);//object being include to array
   localStorage.setItem("notes", JSON.stringify(notesObj));
@@ -169,33 +169,39 @@ favBtn.addEventListener('click', function () {
   let notes = localStorage.getItem("notes");
   let noteCards = document.getElementsByClassName('noteCard');
   flag = [];
-
-  //get data into array
-  if (notes == null) {
-    notesObj = [];
+  if (favBtn.innerText != "favourite Notes") {
+     favBtn.innerText = "favourite Notes";
+     showNotes();
   } else {
-    notesObj = JSON.parse(notes);
-  }
-  //sorted store Note's index into flag
-  notesObj.forEach(function (element, index) {
-    //  console.log(localStorage.getItem(index));
-    flag[index] = localStorage.getItem(index);
-    //  console.log(flag);
-  })
-  flag.forEach(function (element, index) {
-    if (element == "false") {
-      noteCards[index].style.display = 'block';
-
+    //get data into array
+    favBtn.innerText="Reset Favourite";
+    if (notes == null) {
+      notesObj = [];
     } else {
-      noteCards[index].style.display = 'none';
+      notesObj = JSON.parse(notes);//string being store in array
     }
-  })
+    //sorted store Note's index into flag
+    notesObj.forEach(function (element, index) {
+      //  console.log(localStorage.getItem(index));
+      flag[index] = localStorage.getItem(index);
+      //  console.log(flag);
+    })
+    flag.forEach(function (element, index) {
+      if (element == "false") {
+        noteCards[index].style.display = 'block';
+
+      } else {
+        noteCards[index].style.display = 'none';
+      }
+    })
+  }
+
 });
 
 /*
  Features:
 1. Add Title
-2.add notes 
-3.Mark a note as Important 
+2.add notes
+3.Mark a note as Important
 4. Sync and host to web server
 */
