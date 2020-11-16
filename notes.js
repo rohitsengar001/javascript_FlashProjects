@@ -8,13 +8,19 @@ actionHeart();//check action heart when refresh page
 let addBtn = document.getElementById("addBtn");
 addBtn.addEventListener("click", function (e) {
   let addTxt = document.getElementById("addTxt");
+  let addTitle = document.getElementById("addTitle");
   let notes = localStorage.getItem("notes");
   if (notes == null) {
     notesObj = []; //Intensionally make array [initially this line must be executed while run this program]
   } else {
     notesObj = JSON.parse(notes);//parse??
   }
-  notesObj.push(addTxt.value);
+  //use object literals
+  myObj={
+    text:addTxt.value,
+    title:addTitle.value
+  }
+  notesObj.push(myObj);//object being include to array
   localStorage.setItem("notes", JSON.stringify(notesObj));
   addTxt.value = "";
   //   console.log(notesObj);
@@ -36,8 +42,8 @@ function showNotes() {
     html += `
             <div class="noteCard my-2 mx-2 card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Note ${index + 1}<i class="fa fa-heart-o" id="${index}" onclick="fav(this.id)"  aria-hidden="true" ></i></h5>
-                        <p class="card-text"> ${element}</p>
+                        <h5 class="card-title">Note ${element.title}<i class="fa fa-heart-o" id="${index}" onclick="fav(this.id)"  aria-hidden="true" ></i></h5>
+                        <p class="card-text"> ${element.text}</p>
                         <button id="${index}"onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
                     </div>
                 </div>`;
@@ -74,7 +80,7 @@ let search = document.getElementById('searchTxt');
 search.addEventListener("input", function () {
 
   let inputValC = search.value.toUpperCase();
-  let inputValL=search.value.toLowerCase();
+  let inputValL = search.value.toLowerCase();
   let inputValRel = search.value;
   // console.log('Input event fired!', inputVal);
   let noteCards = document.getElementsByClassName('noteCard');
@@ -95,18 +101,18 @@ search.addEventListener("input", function () {
 // favourite function 
 function fav(index) {
   let heart, attrs;
-  
+
   heart = document.getElementById(index);
   attrs = heart.attributes.item(0).value;
   let indicate = localStorage.getItem(index);
   // console.log(indicate);
 
-  if (indicate == null){
+  if (indicate == null) {
     heart.attributes.item(0).value = "fa fa-heart";
-    localStorage.setItem(index,"yes");
+    localStorage.setItem(index, "yes");
   }
   if (indicate == 'false') {
-    
+
     localStorage.setItem(index, "yes");
     // console.log("if part execute");
 
@@ -132,14 +138,14 @@ function actionHeart() {
 
   //iterate to noteObj array
   notesObj.forEach(function (element, index) {
-    let heart = document.getElementById(index); 
+    let heart = document.getElementById(index);
     let indicate = localStorage.getItem(String(index)); //get flag from localstorage
 
-    if(indicate == null)
-       console.log("nothing to fav");
+    if (indicate == null)
+      console.log("nothing to fav");
     else if (indicate == 'false') {
       heart.attributes.item(0).value = "fa fa-heart";
-    
+
     } else {
       heart.attributes.item(0).value = "fa fa-heart-o";
     }
@@ -148,9 +154,9 @@ function actionHeart() {
 }
 
 //!play audio while window load
-var voice =document.getElementById('myAudio');
+var voice = document.getElementById('myAudio');
 // console.log(voice);
-addBtn.addEventListener("click",function(){
+addBtn.addEventListener("click", function () {
   voice.play();
 });
 // window.addEventListener("load",function(){
@@ -158,40 +164,38 @@ addBtn.addEventListener("click",function(){
 // });
 
 //!sort notes accoding to favourite note
-let favBtn=document.getElementById("favBtn");
-favBtn.addEventListener('click',function(){
-  let notes =localStorage.getItem("notes");
+let favBtn = document.getElementById("favBtn");
+favBtn.addEventListener('click', function () {
+  let notes = localStorage.getItem("notes");
   let noteCards = document.getElementsByClassName('noteCard');
-  flag =[];
-  
+  flag = [];
+
   //get data into array
   if (notes == null) {
     notesObj = [];
- } else {
-   notesObj = JSON.parse(notes);
- }
- //sorted store Note's index into flag
- notesObj.forEach(function(element,index){
-  //  console.log(localStorage.getItem(index));
-   flag[index] =localStorage.getItem(index);
-  //  console.log(flag);
- })
- flag.forEach(function(element,index){
-   if (element == "false") {
-     noteCards[index].style.display='block';
-     
-   } else {
-     noteCards[index].style.display='none';
-   }
- })
+  } else {
+    notesObj = JSON.parse(notes);
+  }
+  //sorted store Note's index into flag
+  notesObj.forEach(function (element, index) {
+    //  console.log(localStorage.getItem(index));
+    flag[index] = localStorage.getItem(index);
+    //  console.log(flag);
+  })
+  flag.forEach(function (element, index) {
+    if (element == "false") {
+      noteCards[index].style.display = 'block';
 
-   
+    } else {
+      noteCards[index].style.display = 'none';
+    }
+  })
 });
 
 /*
-Further Features:
+ Features:
 1. Add Title
-2. Mark a note as Important
-3 
+2.add notes 
+3.Mark a note as Important 
 4. Sync and host to web server
 */
