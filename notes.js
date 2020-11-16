@@ -20,6 +20,7 @@ addBtn.addEventListener("click", function (e) {
     text: addTxt.value,
     title: addTitle.value
   }
+  addTitle.value="";// reset the value of title field
   notesObj.push(myObj);//object being include to array
   localStorage.setItem("notes", JSON.stringify(notesObj));
   addTxt.value = "";
@@ -196,6 +197,13 @@ favBtn.addEventListener('click', function () {
     })
   }
 
+});
+
+// !delete all notes
+let delBtn=document.getElementById("delBtn");
+delBtn.addEventListener('click',function(){
+  localStorage.clear();
+  showNotes();
 });
 
 /*
